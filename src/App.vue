@@ -1,5 +1,7 @@
-<script setup></script>
+<script setup>
+const date = new Date().toLocaleString('ru-RU', {});
+</script>
 
-<template></template>
+<template>{{ date }}</template>
 
 <style scoped></style>
