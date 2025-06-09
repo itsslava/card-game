@@ -1,7 +1,9 @@
 <script setup>
 import HeartIcon from '../icons/heart-icon.vue';
 
-const { score } = defineProps(['score']);
+import { ref } from 'vue';
+
+const score = ref('100');
 </script>
 <template>
 	<div class="score-container">
