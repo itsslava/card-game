@@ -4,7 +4,7 @@ import Score from './score.vue';
 <template>
 	<div class="header-container">
 		<h1 class="header-title">Запомни слово</h1>
-		<Score score="100" />
+		<Score />
 	</div>
 </template>
 <style scoped>
