@@ -7,7 +7,7 @@ import Card from './components/card.vue';
 	<div class="container">
 		<Header />
 		<div class="card-container">
-			<Card card-number="01" card-value="unadmitted" card-translation="неопознанный" />
+			<Card />
 		</div>
 	</div>
 </template>

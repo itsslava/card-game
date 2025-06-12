@@ -1,47 +1,46 @@
 <script setup>
-import { ref } from 'vue';
 import RightIcon from '../icons/right-icon.vue';
 import FalseIcon from '../icons/false-icon.vue';
 
-const { cardNumber, cardValue, cardTranslation } = defineProps({
-	cardNumber: {
-		type: [String, Number],
-		required: true,
-	},
-	cardValue: {
-		type: String,
-		required: true,
-	},
-	cardTranslation: {
-		type: String,
-		required: true,
-	},
-});
+import { ref, computed } from 'vue';
 
-const isFlipped = ref(false);
+const cards = ref([
+	{
+		word: 'unadmitted',
+		translation: 'непринятый',
+		state: 'closed',
+		status: 'pending',
+		number: '01',
+	},
+]);
+
+const card = computed(() => cards.value[0]);
 
 function flipCard() {
-	isFlipped.value = true;
+	card.value.state = 'opened';
+	card.value.status = 'pending';
 }
 
 function markWrong() {
-	isFlipped.value = false;
+	card.value.state = 'closed';
+	card.value.status = 'fail';
 }
 
 function markRight() {
-	isFlipped.value = false;
+	card.value.state = 'closed';
+	card.value.status = 'success';
 }
 </script>
 
 <template>
 	<div class="card">
 		<div class="card-frame">
-			<p class="card-number">{{ cardNumber }}</p>
+			<p class="card-number">{{ card.number }}</p>
 			<p class="card-value">
-				{{ isFlipped ? cardTranslation : cardValue }}
+				{{ card.state === 'closed' ? card.word : card.translation }}
 			</p>
 			<div class="card-footer">
-				<button v-if="!isFlipped" type="button" class="card-button flip-button" @click="flipCard">
+				<button v-if="card.state === 'closed'" class="card-button flip-button" @click="flipCard">
 					Перевернуть
 				</button>
 				<template v-else>
