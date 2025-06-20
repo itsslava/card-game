@@ -1,38 +1,11 @@
 <script setup>
-import { ref } from 'vue';
 import Card from './Card.vue';
 
-const cards = ref([
-	{
-		number: '01',
-		word: 'unadmitted',
-		translation: 'непринятый',
-		state: 'closed',
-		status: 'pending',
-	},
-	{
-		number: '02',
-		word: 'rely',
-		translation: 'полагаться',
-		state: 'closed',
-		status: 'pending',
-	},
-]);
+const props = defineProps({
+	cards: Array,
+});
 
-function flipCard(index) {
-	cards.value[index].state = 'opened';
-	cards.value[index].status = 'pending';
-}
-
-function markWrong(index) {
-	cards.value[index].state = 'closed';
-	cards.value[index].status = 'fail';
-}
-
-function markRight(index) {
-	cards.value[index].state = 'closed';
-	cards.value[index].status = 'success';
-}
+const emit = defineEmits(['flip', 'wrong', 'right']);
 </script>
 
 <template>
@@ -42,9 +15,9 @@ function markRight(index) {
 			:key="card.number"
 			:card="card"
 			:index="index"
-			@flip="flipCard"
-			@wrong="markWrong"
-			@right="markRight"
+			@flip="emit('flip', index)"
+			@wrong="emit('wrong', index)"
+			@right="emit('right', index)"
 		/>
 	</div>
 </template>
