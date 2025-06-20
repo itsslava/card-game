@@ -1,13 +1,13 @@
 <script setup>
 import Header from './components/header.vue';
-import Card from './components/card.vue';
+import CardList from './components/card-list.vue';
 </script>
 
 <template>
 	<div class="container">
 		<Header />
 		<div class="card-container">
-			<Card />
+			<CardList />
 		</div>
 	</div>
 </template>

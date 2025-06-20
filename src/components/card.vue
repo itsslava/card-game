@@ -1,54 +1,36 @@
+<!-- Card.vue -->
 <script setup>
 import RightIcon from '../icons/right-icon.vue';
 import FalseIcon from '../icons/false-icon.vue';
 
-import { ref, computed } from 'vue';
-
-const cards = ref([
-	{
-		word: 'unadmitted',
-		translation: 'непринятый',
-		state: 'closed',
-		status: 'pending',
-		number: '01',
-	},
-]);
-
-const card = computed(() => cards.value[0]);
-
-function flipCard() {
-	card.value.state = 'opened';
-	card.value.status = 'pending';
-}
-
-function markWrong() {
-	card.value.state = 'closed';
-	card.value.status = 'fail';
-}
-
-function markRight() {
-	card.value.state = 'closed';
-	card.value.status = 'success';
-}
+defineProps({
+	card: Object,
+	index: Number,
+});
+const emit = defineEmits(['flip', 'wrong', 'right']);
 </script>
 
 <template>
-	<div class="card">
+	<div class="card" :class="`status-${card.status}`">
 		<div class="card-frame">
 			<p class="card-number">{{ card.number }}</p>
 			<p class="card-value">
 				{{ card.state === 'closed' ? card.word : card.translation }}
 			</p>
 			<div class="card-footer">
-				<button v-if="card.state === 'closed'" class="card-button flip-button" @click="flipCard">
+				<button
+					v-if="card.state === 'closed'"
+					class="card-button flip-button"
+					@click="emit('flip', index)"
+				>
 					Перевернуть
 				</button>
 				<template v-else>
 					<div class="card-footer-buttons">
-						<button type="button" class="card-button icon-button wrong" @click="markWrong">
+						<button class="card-button icon-button" @click="emit('wrong', index)">
 							<FalseIcon />
 						</button>
-						<button type="button" class="card-button icon-button right" @click="markRight">
+						<button class="card-button icon-button" @click="emit('right', index)">
 							<RightIcon />
 						</button>
 					</div>
@@ -59,6 +41,11 @@ function markRight() {
 </template>
 
 <style scoped>
+.card-list {
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
 .card {
 	position: relative;
 	width: 250px;
@@ -160,5 +147,15 @@ function markRight() {
 	justify-content: center;
 	padding: 0;
 	border-radius: 50%;
+}
+
+.card.status-success {
+	border: 2px solid #2ecc71;
+}
+.card.status-fail {
+	border: 2px solid #e74c3c;
+}
+.card.status-pending {
+	border: 2px solid transparent;
 }
 </style>
