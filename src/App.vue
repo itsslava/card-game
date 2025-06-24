@@ -1,13 +1,17 @@
 <!-- eslint-disable no-undef -->
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, provide } from 'vue';
 
 import Header from './components/header.vue';
+import Button from './components/button.vue';
 import CardList from './components/card-list.vue';
 
 const API_ENDPOINT = 'http://localhost:8080/api/random-words';
 
 const cards = ref([]);
+
+const score = ref(100);
+provide('score', score);
 
 async function getWords() {
 	const res = await fetch(`${API_ENDPOINT}`);
@@ -28,11 +32,13 @@ function flipCard(index) {
 function markWrong(index) {
 	cards.value[index].state = 'closed';
 	cards.value[index].status = 'fail';
+	score.value -= 4;
 }
 
 function markRight(index) {
 	cards.value[index].state = 'closed';
 	cards.value[index].status = 'success';
+	score.value += 10;
 }
 
 onMounted(getWords);
@@ -44,6 +50,7 @@ onMounted(getWords);
 		<div class="card-container">
 			<CardList :cards="cards" @flip="flipCard" @wrong="markWrong" @right="markRight" />
 		</div>
+		<Button class="button" @click="getWords">Начать заново</Button>
 	</div>
 </template>
 
@@ -57,5 +64,11 @@ onMounted(getWords);
 
 .card-container {
 	display: grid;
+	margin-bottom: 50px;
+}
+
+.button {
+	align-self: center;
+	margin-bottom: 20px;
 }
 </style>

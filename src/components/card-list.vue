@@ -1,7 +1,7 @@
 <script setup>
 import Card from './card.vue';
 
-const props = defineProps({
+const { cards } = defineProps({
 	cards: Array,
 });
 
@@ -26,6 +26,9 @@ const emit = defineEmits(['flip', 'wrong', 'right']);
 .card-list {
 	display: flex;
 	gap: 16px;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
 	flex-wrap: wrap;
 }
 </style>
