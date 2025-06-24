@@ -1,9 +1,9 @@
 <script setup>
 import HeartIcon from '../icons/heart-icon.vue';
 
-import { ref } from 'vue';
+import { inject } from 'vue';
 
-const score = ref('100');
+const score = inject('score');
 </script>
 <template>
 	<div class="score-container">
